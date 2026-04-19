@@ -6,7 +6,8 @@
 }
 
 body {
-  background: #0e0b2e;
+  background: linear-gradient(180deg, #0e0b2e 0%, #6d28d9 100%);
+  background-attachment: fixed;
   color: #ffffff;
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   min-height: 100vh;

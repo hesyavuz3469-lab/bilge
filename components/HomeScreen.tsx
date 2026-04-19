@@ -32,7 +32,7 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
   };
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(160deg, #0e0b2e 0%, #130d3a 50%, #0a1628 100%)" }}>
+    <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(180deg, #0e0b2e 0%, #1a0a3d 40%, #3b0764 70%, #6d28d9 100%)" }}>
       {/* Background glows - çok parlak */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full blur-3xl" style={{ background: "radial-gradient(ellipse, rgba(139,92,246,0.35), transparent)" }} />
