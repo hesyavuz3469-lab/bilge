@@ -122,20 +122,21 @@ export default function QuestionCard({
           const showWrong = selected !== null && isSelected && !isCorrect;
 
           let style: React.CSSProperties = {
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.1)",
+            background: "rgba(99,102,241,0.12)",
+            border: "2px solid rgba(99,102,241,0.45)",
+            boxShadow: "0 0 12px rgba(99,102,241,0.15)",
           };
 
           let className = "w-full p-4 rounded-xl flex items-center gap-3 transition-all duration-200 text-left cursor-pointer active:scale-98";
 
           if (showCorrect) {
-            style = { background: "rgba(16,185,129,0.2)", border: "1px solid rgba(16,185,129,0.6)", boxShadow: "0 0 20px rgba(16,185,129,0.3)" };
+            style = { background: "rgba(16,185,129,0.25)", border: "2px solid rgba(16,185,129,0.8)", boxShadow: "0 0 24px rgba(16,185,129,0.4)" };
             className += " animate-correct";
           } else if (showWrong) {
-            style = { background: "rgba(239,68,68,0.2)", border: "1px solid rgba(239,68,68,0.6)", boxShadow: "0 0 20px rgba(239,68,68,0.3)" };
+            style = { background: "rgba(239,68,68,0.25)", border: "2px solid rgba(239,68,68,0.8)", boxShadow: "0 0 24px rgba(239,68,68,0.4)" };
             className += " animate-wrong";
           } else if (selected === null) {
-            className += " hover:border-indigo-500/50 hover:bg-indigo-500/10";
+            className += " hover:border-indigo-400 hover:bg-indigo-500/20 hover:shadow-[0_0_18px_rgba(99,102,241,0.35)]";
           }
 
           return (
