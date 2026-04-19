@@ -177,17 +177,37 @@ export const CATEGORIES: Category[] = [
   },
 ];
 
+function shuffleOptions(q: Question): Question {
+  const correctAnswer = q.options[q.correct];
+  const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+  const newCorrectIndex = shuffledOptions.indexOf(correctAnswer);
+  return { ...q, options: shuffledOptions, correct: newCorrectIndex };
+}
+
 export function getRandomQuestions(categoryId: string, count: number): Question[] {
   const cat = CATEGORIES.find((c) => c.id === categoryId);
   if (!cat) return [];
-  const shuffled = [...cat.questions].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count).map((q) => {
-    // Shuffle options and update correct index
-    const correctAnswer = q.options[q.correct];
-    const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
-    const newCorrectIndex = shuffledOptions.indexOf(correctAnswer);
-    return { ...q, options: shuffledOptions, correct: newCorrectIndex };
-  });
+
+  const seenKey = `seen_${categoryId}`;
+  let seen: string[] = [];
+  try {
+    seen = JSON.parse(localStorage.getItem(seenKey) || "[]");
+  } catch { seen = []; }
+
+  const unseen = cat.questions.filter((q) => !seen.includes(q.id));
+  const pool = unseen.length >= count ? unseen : cat.questions;
+
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  const selected = shuffled.slice(0, count);
+
+  // Güncelle: görülenleri ekle, hepsi görüldüyse sıfırla
+  const newSeen = [...new Set([...seen, ...selected.map((q) => q.id)])];
+  const reset = newSeen.length >= cat.questions.length;
+  try {
+    localStorage.setItem(seenKey, JSON.stringify(reset ? [] : newSeen));
+  } catch { /* ignore */ }
+
+  return selected.map(shuffleOptions);
 }
 
 export function getDailyQuestions(count: number = 10): { questions: Question[]; categoryIds: string[] } {
