@@ -14,6 +14,9 @@ export const metadata: Metadata = {
     description: "Her gün yeni 10 soru! Kategoriler, XP, liderboard.",
     type: "website",
   },
+  other: {
+    "google-adsense-account": "ca-pub-2649583964814971",
+  },
 };
 
 const ADSENSE_ID = process.env.NEXT_PUBLIC_ADSENSE_ID ?? "ca-pub-2649583964814971";
@@ -21,8 +24,8 @@ const ADSENSE_ID = process.env.NEXT_PUBLIC_ADSENSE_ID ?? "ca-pub-264958396481497
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="tr" className={`${geist.variable} h-full antialiased`}>
-      <head>
-        <meta name="google-adsense-account" content="ca-pub-2649583964814971" />
+      <body className="min-h-full flex flex-col bg-[#020817]">
+        {children}
         {ADSENSE_ID && (
           <Script
             async
@@ -31,8 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             strategy="afterInteractive"
           />
         )}
-      </head>
-      <body className="min-h-full flex flex-col bg-[#020817]">{children}</body>
+      </body>
     </html>
   );
 }
