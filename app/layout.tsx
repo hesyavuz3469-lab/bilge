@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -15,9 +16,22 @@ export const metadata: Metadata = {
   },
 };
 
+// AdSense Publisher ID — Google AdSense onayı alınca buraya yaz: ca-pub-XXXXXXXXXXXXXXXX
+const ADSENSE_ID = process.env.NEXT_PUBLIC_ADSENSE_ID ?? "";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="tr" className={`${geist.variable} h-full antialiased`}>
+      <head>
+        {ADSENSE_ID && (
+          <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
+      </head>
       <body className="min-h-full flex flex-col bg-[#020817]">{children}</body>
     </html>
   );
