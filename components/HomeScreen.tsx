@@ -32,14 +32,14 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
   };
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(180deg, #0e0b2e 0%, #1a0a3d 40%, #3b0764 70%, #6d28d9 100%)" }}>
+    <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(180deg, #020c02 0%, #052e05 40%, #065f06 70%, #16a34a 100%)" }}>
       {/* Background glows - çok parlak */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full blur-3xl" style={{ background: "radial-gradient(ellipse, rgba(139,92,246,0.35), transparent)" }} />
-        <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full blur-3xl" style={{ background: "rgba(236,72,153,0.25)" }} />
-        <div className="absolute top-1/2 right-0 w-96 h-96 rounded-full blur-3xl" style={{ background: "rgba(6,182,212,0.22)" }} />
-        <div className="absolute top-1/4 left-0 w-64 h-64 rounded-full blur-3xl" style={{ background: "rgba(251,191,36,0.12)" }} />
-        <div className="absolute bottom-1/3 right-1/4 w-48 h-48 rounded-full blur-2xl" style={{ background: "rgba(99,102,241,0.3)" }} />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full blur-3xl" style={{ background: "radial-gradient(ellipse, rgba(74,222,128,0.3), transparent)" }} />
+        <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full blur-3xl" style={{ background: "rgba(34,197,94,0.35)" }} />
+        <div className="absolute top-1/2 right-0 w-96 h-96 rounded-full blur-3xl" style={{ background: "rgba(16,185,129,0.25)" }} />
+        <div className="absolute top-1/4 left-0 w-64 h-64 rounded-full blur-3xl" style={{ background: "rgba(74,222,128,0.2)" }} />
+        <div className="absolute bottom-1/3 right-1/4 w-48 h-48 rounded-full blur-2xl" style={{ background: "rgba(163,230,53,0.25)" }} />
       </div>
 
       <div className="relative flex-1 flex flex-col max-w-lg mx-auto w-full px-4 py-6">
