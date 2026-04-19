@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getStats, getLevelTitle, getLevelColor, getLevel, getLevelProgress, getLeaderboard } from "@/lib/storage";
+import { getStats, getLevelTitle, getLevelColor, getLevel, getLevelProgress } from "@/lib/storage";
 import { CATEGORIES } from "@/lib/questions";
 import { getTodayKey } from "@/lib/questions";
 
@@ -15,12 +15,8 @@ type Props = {
 export default function HomeScreen({ username, onStartDaily, onStartEndless, onShowStats }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<string>("random");
   const [stats, setStats] = useState<ReturnType<typeof getStats> | null>(null);
-  const [topScore, setTopScore] = useState(0);
-
   useEffect(() => {
     setStats(getStats());
-    const board = getLeaderboard();
-    if (board.length > 0) setTopScore(board[0].score);
   }, []);
 
   const level = stats ? getLevel(stats.totalXP) : 1;
@@ -36,12 +32,14 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
   };
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(160deg, #020817 0%, #0d1526 60%, #020817 100%)" }}>
-      {/* Background glows */}
+    <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(160deg, #0e0b2e 0%, #130d3a 50%, #0a1628 100%)" }}>
+      {/* Background glows - çok parlak */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-3xl opacity-60" style={{ background: "radial-gradient(ellipse, rgba(99,102,241,0.15), transparent)" }} />
-        <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full blur-3xl" style={{ background: "rgba(168,85,247,0.08)" }} />
-        <div className="absolute top-1/2 right-0 w-80 h-80 rounded-full blur-3xl" style={{ background: "rgba(6,182,212,0.06)" }} />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full blur-3xl" style={{ background: "radial-gradient(ellipse, rgba(139,92,246,0.35), transparent)" }} />
+        <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full blur-3xl" style={{ background: "rgba(236,72,153,0.25)" }} />
+        <div className="absolute top-1/2 right-0 w-96 h-96 rounded-full blur-3xl" style={{ background: "rgba(6,182,212,0.22)" }} />
+        <div className="absolute top-1/4 left-0 w-64 h-64 rounded-full blur-3xl" style={{ background: "rgba(251,191,36,0.12)" }} />
+        <div className="absolute bottom-1/3 right-1/4 w-48 h-48 rounded-full blur-2xl" style={{ background: "rgba(99,102,241,0.3)" }} />
       </div>
 
       <div className="relative flex-1 flex flex-col max-w-lg mx-auto w-full px-4 py-6">
@@ -51,10 +49,10 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
             📊
           </button>
           <div className="text-center">
-            <h1 className="text-4xl font-black tracking-tighter" style={{ background: "linear-gradient(135deg, #818cf8, #c084fc, #38bdf8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <h1 className="text-5xl font-black tracking-tighter" style={{ background: "linear-gradient(135deg, #c4b5fd, #f0abfc, #67e8f9)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 0 30px rgba(192,132,252,0.7))" }}>
               Bilge
             </h1>
-            <p className="text-zinc-500 text-xs">Türkçe Trivia Oyunu</p>
+            <p className="text-purple-300/70 text-xs font-medium tracking-widest uppercase">Türkçe Trivia</p>
           </div>
           <div className="w-11 h-11 flex items-center justify-center rounded-2xl font-black text-sm" style={{ background: `linear-gradient(135deg, ${levelColor}33, ${levelColor}55)`, border: `1px solid ${levelColor}44`, color: levelColor, boxShadow: `0 0 16px ${levelColor}30` }}>
             {level}

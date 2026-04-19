@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react";
 import { Question, Category } from "@/lib/questions";
 
-type AnswerState = "idle" | "correct" | "wrong";
-
 type Props = {
   question: Question;
   category: Category;
@@ -21,12 +19,10 @@ export default function QuestionCard({
   timeLeft, maxTime, onAnswer, streak,
 }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
-  const [answerState, setAnswerState] = useState<AnswerState>("idle");
   const [floatingScore, setFloatingScore] = useState<string | null>(null);
 
   useEffect(() => {
     setSelected(null);
-    setAnswerState("idle");
     setFloatingScore(null);
   }, [question.id]);
 
@@ -34,7 +30,6 @@ export default function QuestionCard({
     if (selected !== null) return;
     const correct = idx === question.correct;
     setSelected(idx);
-    setAnswerState(correct ? "correct" : "wrong");
 
     if (correct) {
       const bonus = streak >= 3 ? ` +${streak}🔥` : "";
@@ -105,7 +100,7 @@ export default function QuestionCard({
       )}
 
       {/* Question */}
-      <div className="relative mb-5 p-6 rounded-2xl" style={{ background: "linear-gradient(145deg, rgba(99,102,241,0.12), rgba(168,85,247,0.08))", border: "1px solid rgba(99,102,241,0.25)", boxShadow: "0 0 40px rgba(99,102,241,0.1)" }}>
+      <div className="relative mb-5 p-6 rounded-2xl" style={{ background: "linear-gradient(145deg, rgba(139,92,246,0.18), rgba(236,72,153,0.1))", border: "1px solid rgba(139,92,246,0.4)", boxShadow: "0 0 50px rgba(139,92,246,0.2), inset 0 1px 0 rgba(255,255,255,0.06)" }}>
         <p className="text-white text-lg font-bold leading-relaxed text-center">
           {question.question}
         </p>
