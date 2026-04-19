@@ -91,7 +91,7 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
           onClick={onStartDaily}
           disabled={dailyDone}
           className="w-full p-5 rounded-2xl mb-4 text-left transition-all active:scale-98 disabled:opacity-60 disabled:cursor-not-allowed"
-          style={{ background: dailyDone ? "#1c1410" : "linear-gradient(135deg, #c2410c, #ea580c, #f97316)", border: dailyDone ? "2px solid #3d2b1a" : "2px solid #fb923c", boxShadow: dailyDone ? "none" : "0 0 35px rgba(249,115,22,0.55), inset 0 1px 0 rgba(255,255,255,0.1)" }}
+          style={{ background: "linear-gradient(135deg, #c2410c, #ea580c, #f97316)", border: "2px solid #fb923c", boxShadow: dailyDone ? "none" : "0 0 35px rgba(249,115,22,0.55), inset 0 1px 0 rgba(255,255,255,0.1)", opacity: dailyDone ? 0.55 : 1 }}
         >
           <div className="flex items-center justify-between">
             <div>
