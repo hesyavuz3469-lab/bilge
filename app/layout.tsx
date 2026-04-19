@@ -16,8 +16,7 @@ export const metadata: Metadata = {
   },
 };
 
-// AdSense Publisher ID — Google AdSense onayı alınca buraya yaz: ca-pub-XXXXXXXXXXXXXXXX
-const ADSENSE_ID = process.env.NEXT_PUBLIC_ADSENSE_ID ?? "";
+const ADSENSE_ID = process.env.NEXT_PUBLIC_ADSENSE_ID ?? "ca-pub-2649583964814971";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
