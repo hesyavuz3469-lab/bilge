@@ -125,10 +125,14 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
             <button
               onClick={() => setSelectedCategory("random")}
               className="p-2.5 rounded-xl text-center transition-all active:scale-95"
-              style={{ background: selectedCategory === "random" ? "rgba(99,102,241,0.25)" : "rgba(255,255,255,0.04)", border: selectedCategory === "random" ? "1px solid rgba(99,102,241,0.6)" : "1px solid rgba(255,255,255,0.08)", boxShadow: selectedCategory === "random" ? "0 0 12px rgba(99,102,241,0.3)" : "none" }}
+              style={{
+                background: selectedCategory === "random" ? "rgba(99,102,241,0.35)" : "rgba(99,102,241,0.12)",
+                border: selectedCategory === "random" ? "2px solid rgba(99,102,241,0.9)" : "2px solid rgba(99,102,241,0.35)",
+                boxShadow: selectedCategory === "random" ? "0 0 18px rgba(99,102,241,0.5)" : "0 0 8px rgba(99,102,241,0.15)",
+              }}
             >
               <p className="text-xl">🎲</p>
-              <p className="text-xs text-zinc-300 font-bold mt-0.5">Rastgele</p>
+              <p className="text-xs text-white font-bold mt-0.5">Rastgele</p>
             </button>
             {CATEGORIES.map((cat) => (
               <button
@@ -136,13 +140,13 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
                 onClick={() => setSelectedCategory(cat.id)}
                 className="p-2.5 rounded-xl text-center transition-all active:scale-95"
                 style={{
-                  background: selectedCategory === cat.id ? `${cat.color}30` : "rgba(255,255,255,0.04)",
-                  border: selectedCategory === cat.id ? `1px solid ${cat.color}70` : "1px solid rgba(255,255,255,0.08)",
-                  boxShadow: selectedCategory === cat.id ? `0 0 12px ${cat.color}40` : "none",
+                  background: selectedCategory === cat.id ? `${cat.color}40` : `${cat.color}18`,
+                  border: selectedCategory === cat.id ? `2px solid ${cat.color}` : `2px solid ${cat.color}55`,
+                  boxShadow: selectedCategory === cat.id ? `0 0 18px ${cat.color}60` : `0 0 8px ${cat.color}20`,
                 }}
               >
                 <p className="text-xl">{cat.emoji}</p>
-                <p className="text-xs text-zinc-300 font-bold mt-0.5">{cat.name}</p>
+                <p className="text-xs text-white font-bold mt-0.5">{cat.name}</p>
               </button>
             ))}
           </div>
