@@ -113,12 +113,12 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
         </button>
 
         {/* Endless Mode */}
-        <div className="p-5 rounded-2xl mb-4" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
+        <div className="p-5 rounded-2xl mb-4" style={{ background: "rgba(15,20,40,0.85)", border: "1px solid rgba(99,102,241,0.3)" }}>
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">♾️</span>
             <span className="text-white font-black text-lg">Sonsuz Mod</span>
           </div>
-          <p className="text-zinc-500 text-sm mb-4">Kategori seç, istediğin kadar oyna</p>
+          <p className="text-zinc-400 text-sm mb-4">Kategori seç, istediğin kadar oyna</p>
 
           {/* Category grid */}
           <div className="grid grid-cols-3 gap-2 mb-4">
@@ -126,9 +126,9 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
               onClick={() => setSelectedCategory("random")}
               className="p-2.5 rounded-xl text-center transition-all active:scale-95"
               style={{
-                background: selectedCategory === "random" ? "rgba(99,102,241,0.35)" : "rgba(99,102,241,0.12)",
-                border: selectedCategory === "random" ? "2px solid rgba(99,102,241,0.9)" : "2px solid rgba(99,102,241,0.35)",
-                boxShadow: selectedCategory === "random" ? "0 0 18px rgba(99,102,241,0.5)" : "0 0 8px rgba(99,102,241,0.15)",
+                background: selectedCategory === "random" ? "#4f46e5" : "#1e1b4b",
+                border: selectedCategory === "random" ? "2px solid #818cf8" : "2px solid #3730a3",
+                boxShadow: selectedCategory === "random" ? "0 0 20px rgba(99,102,241,0.6)" : "none",
               }}
             >
               <p className="text-xl">🎲</p>
@@ -140,9 +140,9 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
                 onClick={() => setSelectedCategory(cat.id)}
                 className="p-2.5 rounded-xl text-center transition-all active:scale-95"
                 style={{
-                  background: selectedCategory === cat.id ? `${cat.color}40` : `${cat.color}18`,
-                  border: selectedCategory === cat.id ? `2px solid ${cat.color}` : `2px solid ${cat.color}55`,
-                  boxShadow: selectedCategory === cat.id ? `0 0 18px ${cat.color}60` : `0 0 8px ${cat.color}20`,
+                  background: selectedCategory === cat.id ? cat.color : `${cat.color}33`,
+                  border: selectedCategory === cat.id ? `2px solid ${cat.color}` : `2px solid ${cat.color}88`,
+                  boxShadow: selectedCategory === cat.id ? `0 0 20px ${cat.color}80` : "none",
                 }}
               >
                 <p className="text-xl">{cat.emoji}</p>
