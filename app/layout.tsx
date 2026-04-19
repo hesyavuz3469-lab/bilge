@@ -6,6 +6,9 @@ import "./globals.css";
 const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  other: {
+    "google-adsense-account": "ca-pub-2649583964814971",
+  },
   title: "Bilge – Türkçe Trivia Oyunu",
   description: "Her gün yeni sorular, 8 kategori, XP sistemi. Türkiye'nin en iyi trivia oyunu!",
   keywords: ["trivia", "türkçe bilgi yarışması", "bilge", "günlük oyun", "quiz"],
