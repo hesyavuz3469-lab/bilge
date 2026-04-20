@@ -1,0 +1,18 @@
+{
+  "name": "Bilge – Türkçe Trivia Oyunu",
+  "short_name": "Bilge",
+  "description": "Her gün yeni sorular, 8 kategori, XP sistemi. Türkiye'nin en iyi trivia oyunu!",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020c02",
+  "theme_color": "#16a34a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
