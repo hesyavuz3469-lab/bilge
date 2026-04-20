@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getStats, getLevelTitle, getLevelColor, getLevel, getLevelProgress } from "@/lib/storage";
 import { CATEGORIES } from "@/lib/questions";
 import { getTodayKey } from "@/lib/questions";
+import { playClick } from "@/lib/sounds";
 
 type Props = {
   username: string;
@@ -25,10 +26,22 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
   const dailyDone = stats?.dailyDate === getTodayKey();
 
   const handleEndless = () => {
+    playClick();
     const cat = selectedCategory === "random"
       ? CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)].id
       : selectedCategory;
     onStartEndless(cat);
+  };
+
+  const handleDaily = () => {
+    if (dailyDone) return;
+    playClick();
+    onStartDaily();
+  };
+
+  const handleCategorySelect = (id: string) => {
+    playClick();
+    setSelectedCategory(id);
   };
 
   return (
@@ -88,7 +101,7 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
 
         {/* Daily Challenge */}
         <button
-          onClick={onStartDaily}
+          onClick={handleDaily}
           disabled={dailyDone}
           className="w-full p-5 rounded-2xl mb-4 text-left transition-all active:scale-98 disabled:opacity-60 disabled:cursor-not-allowed"
           style={{ background: "linear-gradient(135deg, #c2410c, #ea580c, #f97316)", border: "2px solid #fb923c", boxShadow: dailyDone ? "none" : "0 0 35px rgba(249,115,22,0.55), inset 0 1px 0 rgba(255,255,255,0.1)", opacity: dailyDone ? 0.55 : 1 }}
@@ -123,7 +136,7 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
           {/* Category grid */}
           <div className="grid grid-cols-3 gap-2 mb-4">
             <button
-              onClick={() => setSelectedCategory("random")}
+              onClick={() => handleCategorySelect("random")}
               className="p-2.5 rounded-xl text-center transition-all active:scale-95"
               style={{
                 background: selectedCategory === "random" ? "#4f46e5" : "#1e1b4b",
@@ -137,7 +150,7 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
+                onClick={() => handleCategorySelect(cat.id)}
                 className="p-2.5 rounded-xl text-center transition-all active:scale-95"
                 style={{
                   background: selectedCategory === cat.id ? cat.color : `${cat.color}33`,
