@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Question, Category } from "@/lib/questions";
+import { playCorrect, playWrong, playTimerTick } from "@/lib/sounds";
 
 type Props = {
   question: Question;
@@ -26,15 +27,24 @@ export default function QuestionCard({
     setFloatingScore(null);
   }, [question.id]);
 
+  useEffect(() => {
+    if (timeLeft <= 5 && timeLeft > 0 && selected === null) {
+      playTimerTick();
+    }
+  }, [timeLeft, selected]);
+
   const handleSelect = (idx: number) => {
     if (selected !== null) return;
     const correct = idx === question.correct;
     setSelected(idx);
 
     if (correct) {
+      playCorrect();
       const bonus = streak >= 3 ? ` +${streak}🔥` : "";
       setFloatingScore(`+20 XP${bonus}`);
       setTimeout(() => setFloatingScore(null), 800);
+    } else {
+      playWrong();
     }
 
     setTimeout(() => onAnswer(idx, correct), 900);

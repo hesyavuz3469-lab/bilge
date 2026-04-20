@@ -5,6 +5,7 @@ import QuestionCard from "./QuestionCard";
 import ResultScreen from "./ResultScreen";
 import { Question, Category, CATEGORIES, getRandomQuestions, getDailyQuestions, getTodayKey } from "@/lib/questions";
 import { GameMode, updateStats, saveToLeaderboard, getStats, saveDailyState, loadDailyState } from "@/lib/storage";
+import { playCombo, playWin, playLose } from "@/lib/sounds";
 
 const TIME_PER_QUESTION = 20;
 const QUESTIONS_PER_GAME = 10;
@@ -119,6 +120,7 @@ export default function GameScreen({ mode, categoryId, username, onHome }: Props
       addedScore = Math.round((100 + timeBonus) * newCombo);
 
       if (newCombo > combo) {
+        playCombo();
         triggerFlash("combo", `🔥 x${newCombo} COMBO!`);
       } else {
         triggerFlash("correct", `+${addedScore}`);
@@ -145,6 +147,8 @@ export default function GameScreen({ mode, categoryId, username, onHome }: Props
       const newStats = updateStats(totalCorrect, questions.length, mode, timeSeconds, categoryId);
       setXpGained(newStats.totalXP - prevStats.totalXP);
       setFinalStreak(newStats.currentStreak);
+      const totalCorrectFinal = newAnswers.filter((a, i) => a === questions[i]?.correct).length;
+      if (totalCorrectFinal >= questions.length * 0.6) playWin(); else playLose();
       setFinished(true);
 
       if (mode === "daily") {
