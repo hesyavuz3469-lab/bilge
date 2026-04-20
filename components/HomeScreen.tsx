@@ -62,10 +62,10 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
             📊
           </button>
           <div className="text-center">
-            <h1 className="text-5xl font-black tracking-tighter" style={{ background: "linear-gradient(135deg, #c4b5fd, #f0abfc, #67e8f9)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 0 30px rgba(192,132,252,0.7))" }}>
+            <h1 className="text-5xl font-black tracking-tighter" style={{ color: "#ffffff", textShadow: "0 0 24px rgba(255,255,255,0.4)" }}>
               Bilge
             </h1>
-            <p className="text-purple-300/70 text-xs font-medium tracking-widest uppercase">Türkçe Trivia</p>
+            <p className="text-xs font-medium tracking-widest uppercase" style={{ color: "#86efac" }}>Türkçe Trivia</p>
           </div>
           <div className="w-11 h-11 flex items-center justify-center rounded-2xl font-black text-sm" style={{ background: `linear-gradient(135deg, ${levelColor}33, ${levelColor}55)`, border: `1px solid ${levelColor}44`, color: levelColor, boxShadow: `0 0 16px ${levelColor}30` }}>
             {level}
