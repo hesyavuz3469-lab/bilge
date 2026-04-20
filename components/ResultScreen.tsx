@@ -45,6 +45,12 @@ export default function ResultScreen({ correct, total, score, timeSeconds, mode,
 
   const handleShare = async () => {
     const text = buildShareText(correct, total, mode);
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "Bilge – Trivia Oyunu", text, url: "https://bilge-ewat.vercel.app" });
+        return;
+      } catch {}
+    }
     try { await navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 2000); }
     catch { alert(text); }
   };
