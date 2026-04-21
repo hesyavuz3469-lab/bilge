@@ -3,17 +3,18 @@
 import { useEffect, useState } from "react";
 import HomeScreen from "@/components/HomeScreen";
 import GameScreen from "@/components/GameScreen";
+import ImageGameScreen from "@/components/ImageGameScreen";
 import UsernameModal from "@/components/UsernameModal";
 import StatsModal from "@/components/StatsModal";
 import { getUsername } from "@/lib/storage";
 import { GameMode } from "@/lib/storage";
 
-type Screen = "home" | "game";
+type Screen = "home" | "game" | "image";
 
 export default function Home() {
   const [screen, setScreen] = useState<Screen>("home");
   const [gameMode, setGameMode] = useState<GameMode>("daily");
-  const [categoryId, setCategoryId] = useState<string | undefined>();
+  const [categoryId, setCategoryId] = useState<string>("random");
   const [username, setUsername] = useState("");
   const [showUsernameModal, setShowUsernameModal] = useState(false);
   const [showStats, setShowStats] = useState(false);
@@ -26,7 +27,7 @@ export default function Home() {
 
   const handleStartDaily = () => {
     setGameMode("daily");
-    setCategoryId(undefined);
+    setCategoryId("random");
     setScreen("game");
   };
 
@@ -34,6 +35,11 @@ export default function Home() {
     setGameMode("endless");
     setCategoryId(catId);
     setScreen("game");
+  };
+
+  const handleStartImage = (catId: string) => {
+    setCategoryId(catId);
+    setScreen("image");
   };
 
   if (screen === "game") {
@@ -47,12 +53,23 @@ export default function Home() {
     );
   }
 
+  if (screen === "image") {
+    return (
+      <ImageGameScreen
+        categoryId={categoryId}
+        username={username}
+        onHome={() => setScreen("home")}
+      />
+    );
+  }
+
   return (
     <>
       <HomeScreen
         username={username}
         onStartDaily={handleStartDaily}
         onStartEndless={handleStartEndless}
+        onStartImage={handleStartImage}
         onShowStats={() => setShowStats(true)}
       />
       {showUsernameModal && (

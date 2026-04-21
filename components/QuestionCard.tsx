@@ -103,14 +103,14 @@ export default function QuestionCard({
       {/* Streak badge */}
       {streak >= 2 && (
         <div className="flex justify-center mb-3 animate-pop">
-          <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: "rgba(249,115,22,0.2)", border: "1px solid rgba(249,115,22,0.4)", color: "#fb923c" }}>
+          <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: "rgba(249,115,22,0.4)", border: "1px solid rgba(249,115,22,0.7)", color: "#fb923c" }}>
             🔥 {streak} doğru seri!
           </span>
         </div>
       )}
 
       {/* Question */}
-      <div className="relative mb-5 p-6 rounded-2xl" style={{ background: "linear-gradient(145deg, rgba(139,92,246,0.18), rgba(236,72,153,0.1))", border: "1px solid rgba(139,92,246,0.4)", boxShadow: "0 0 50px rgba(139,92,246,0.2), inset 0 1px 0 rgba(255,255,255,0.06)" }}>
+      <div className="relative mb-5 p-6 rounded-2xl" style={{ background: "linear-gradient(145deg, rgba(139,92,246,0.35), rgba(236,72,153,0.22))", border: "1px solid rgba(139,92,246,0.6)", boxShadow: "0 0 50px rgba(139,92,246,0.3), inset 0 1px 0 rgba(255,255,255,0.1)" }}>
         <p className="text-white text-lg font-bold leading-relaxed text-center">
           {question.question}
         </p>
@@ -132,9 +132,9 @@ export default function QuestionCard({
           const showWrong = selected !== null && isSelected && !isCorrect;
 
           let style: React.CSSProperties = {
-            background: "rgba(99,102,241,0.12)",
-            border: "2px solid rgba(99,102,241,0.45)",
-            boxShadow: "0 0 12px rgba(99,102,241,0.15)",
+            background: "rgba(99,102,241,0.3)",
+            border: "2px solid rgba(99,102,241,0.65)",
+            boxShadow: "0 0 12px rgba(99,102,241,0.25)",
           };
 
           let className = "w-full p-4 rounded-xl flex items-center gap-3 transition-all duration-200 text-left cursor-pointer active:scale-98";
@@ -170,7 +170,7 @@ export default function QuestionCard({
 
       {/* Explanation */}
       {selected !== null && question.explanation && (
-        <div className="mt-3 p-3 rounded-xl animate-fade-up" style={{ background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.2)" }}>
+        <div className="mt-3 p-3 rounded-xl animate-fade-up" style={{ background: "rgba(99,102,241,0.28)", border: "1px solid rgba(99,102,241,0.5)" }}>
           <p className="text-zinc-400 text-xs">💡 {question.explanation}</p>
         </div>
       )}

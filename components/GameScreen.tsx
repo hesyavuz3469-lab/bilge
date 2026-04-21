@@ -201,11 +201,11 @@ export default function GameScreen({ mode, categoryId, username, onHome }: Props
 
       {/* Top bar */}
       <div className="relative z-10 flex items-center justify-between px-4 pt-4 pb-2">
-        <button onClick={onHome} className="w-10 h-10 flex items-center justify-center rounded-xl text-zinc-400 hover:text-white transition-colors" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>←</button>
+        <button onClick={onHome} className="w-10 h-10 flex items-center justify-center rounded-xl text-zinc-200 hover:text-white transition-colors" style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.25)" }}>←</button>
 
         <div className="flex items-center gap-2">
           {/* Lives */}
-          <div className="flex items-center gap-1 px-3 py-1.5 rounded-xl" style={{ background: "rgba(239,68,68,0.12)", border: "1px solid rgba(239,68,68,0.2)" }}>
+          <div className="flex items-center gap-1 px-3 py-1.5 rounded-xl" style={{ background: "rgba(239,68,68,0.3)", border: "1px solid rgba(239,68,68,0.55)" }}>
             {Array.from({ length: MAX_LIVES }).map((_, i) => (
               <span key={i} className={`text-base transition-all ${i < lives ? "opacity-100" : "opacity-20 grayscale"}`}>❤️</span>
             ))}
@@ -213,14 +213,14 @@ export default function GameScreen({ mode, categoryId, username, onHome }: Props
 
           {/* Combo */}
           {combo > 1 && (
-            <div className="flex items-center gap-1 px-3 py-1.5 rounded-xl animate-pop" style={{ background: "rgba(251,191,36,0.15)", border: "1px solid rgba(251,191,36,0.4)" }}>
+            <div className="flex items-center gap-1 px-3 py-1.5 rounded-xl animate-pop" style={{ background: "rgba(251,191,36,0.32)", border: "1px solid rgba(251,191,36,0.65)" }}>
               <span className="text-yellow-400 font-black text-sm">x{combo}</span>
               <span className="text-yellow-600 text-xs">COMBO</span>
             </div>
           )}
 
           {/* Score */}
-          <div className="flex items-center gap-1 px-3 py-1.5 rounded-xl" style={{ background: "rgba(99,102,241,0.15)", border: "1px solid rgba(99,102,241,0.25)" }}>
+          <div className="flex items-center gap-1 px-3 py-1.5 rounded-xl" style={{ background: "rgba(99,102,241,0.35)", border: "1px solid rgba(99,102,241,0.55)" }}>
             <span className="text-indigo-300 font-black text-sm">{score}</span>
           </div>
         </div>

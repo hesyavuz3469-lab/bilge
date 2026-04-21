@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getStats, getLevelTitle, getLevelColor, getLevel, getLevelProgress, LEVEL_THRESHOLDS } from "@/lib/storage";
+import { getStats, getLevelTitle, getLevelColor, getLevel, getLevelProgress } from "@/lib/storage";
 import { CATEGORIES } from "@/lib/questions";
 
 type Props = { onClose: () => void };
@@ -31,7 +31,7 @@ export default function StatsModal({ onClose }: Props) {
             </div>
 
             {/* Level card */}
-            <div className="mb-5 p-4 rounded-2xl" style={{ background: `${levelColor}15`, border: `1px solid ${levelColor}30` }}>
+            <div className="mb-5 p-4 rounded-2xl" style={{ background: `${levelColor}40`, border: `1px solid ${levelColor}70` }}>
               <div className="flex items-center justify-between mb-2">
                 <div>
                   <p className="text-zinc-400 text-xs">Seviye {level}</p>
@@ -58,7 +58,7 @@ export default function StatsModal({ onClose }: Props) {
                 { label: "Mevcut Seri", value: `${stats.currentStreak} 🔥`, icon: "", color: "#f97316" },
                 { label: "En Uzun Seri", value: stats.bestStreak, icon: "⚡", color: "#f59e0b" },
               ].map(({ label, value, icon, color }) => (
-                <div key={label} className="p-3 rounded-2xl text-center" style={{ background: `${color}12`, border: `1px solid ${color}25` }}>
+                <div key={label} className="p-3 rounded-2xl text-center" style={{ background: `${color}38`, border: `1px solid ${color}65` }}>
                   <p className="text-lg">{icon}</p>
                   <p className="font-black text-lg text-white">{value}</p>
                   <p className="text-zinc-500 text-xs">{label}</p>

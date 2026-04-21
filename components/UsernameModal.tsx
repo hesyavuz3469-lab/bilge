@@ -26,7 +26,7 @@ export default function UsernameModal({ onSave }: Props) {
             <h2 className="text-2xl font-black text-white mb-2">Bilge&apos;ye Hoş Geldin!</h2>
             <p className="text-zinc-400 text-sm mb-6">Türkiye&apos;nin en zekice trivia oyunu</p>
 
-            <div className="mb-6 p-4 rounded-2xl text-left space-y-2.5" style={{ background: "rgba(99,102,241,0.08)", border: "1px solid rgba(99,102,241,0.15)" }}>
+            <div className="mb-6 p-4 rounded-2xl text-left space-y-2.5" style={{ background: "rgba(99,102,241,0.28)", border: "1px solid rgba(99,102,241,0.5)" }}>
               <p className="text-xs font-black text-zinc-400 uppercase tracking-wider mb-3">Nasıl Oynanır?</p>
               {[
                 { icon: "📅", text: "Her gün yeni 10 soru seni bekliyor" },
@@ -50,7 +50,7 @@ export default function UsernameModal({ onSave }: Props) {
                 maxLength={20}
                 autoFocus
                 className="w-full px-4 py-3.5 rounded-2xl text-center text-base font-bold text-white placeholder:text-zinc-600 focus:outline-none transition-all"
-                style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(99,102,241,0.3)" }}
+                style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(99,102,241,0.5)" }}
                 onFocus={(e) => e.target.style.borderColor = "rgba(99,102,241,0.7)"}
                 onBlur={(e) => e.target.style.borderColor = "rgba(99,102,241,0.3)"}
               />
