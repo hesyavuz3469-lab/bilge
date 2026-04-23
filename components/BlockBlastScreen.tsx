@@ -304,10 +304,10 @@ export default function BlockBlastScreen({ onHome }: Props) {
     const pct = best > 0 ? Math.min(score / best, 1) : 1;
     return (
       <div className="min-h-screen flex items-center justify-center p-4"
-        style={{background:"linear-gradient(160deg,#050d1a 0%,#0a1628 50%,#050d1a 100%)"}}>
+        style={{background:"linear-gradient(160deg,#0a0020 0%,#130a2e 50%,#0a0020 100%)"}}>
         <div className="w-full max-w-sm">
           <div className="rounded-3xl overflow-hidden"
-            style={{background:"rgba(8,15,35,0.98)", border:"1px solid rgba(99,102,241,0.35)", boxShadow:"0 0 80px rgba(99,102,241,0.2)"}}>
+            style={{background:"linear-gradient(145deg,rgba(20,10,50,0.98),rgba(10,15,45,0.98))", border:"1px solid rgba(139,92,246,0.4)", boxShadow:"0 0 80px rgba(99,102,241,0.25), 0 0 0 1px rgba(99,102,241,0.1)"}}>
             <div className="h-1.5" style={{background:"linear-gradient(90deg,#00d4ff,#6366f1,#ea40fb)"}}/>
             <div className="p-7">
               <div className="text-center mb-5">
@@ -379,17 +379,25 @@ export default function BlockBlastScreen({ onHome }: Props) {
   // ─── Main Game ─────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen flex flex-col select-none"
-      style={{background:"linear-gradient(160deg,#050d1a 0%,#0a1628 60%,#050d1a 100%)", touchAction:"none"}}>
+      style={{background:"linear-gradient(160deg,#0a0020 0%,#130a2e 30%,#0c1a3a 60%,#0a0020 100%)", touchAction:"none"}}>
 
       {/* Floating piece */}
       {floatingPiece}
 
       {/* Background glow blobs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-10"
-          style={{background:"radial-gradient(ellipse,#00d4ff,transparent)"}}/>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full blur-3xl opacity-10"
-          style={{background:"radial-gradient(ellipse,#ea40fb,transparent)"}}/>
+        <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-3xl opacity-30"
+          style={{background:"radial-gradient(ellipse,#5b21b6,transparent)"}}/>
+        <div className="absolute top-1/4 left-0 w-80 h-80 rounded-full blur-3xl opacity-25"
+          style={{background:"radial-gradient(ellipse,#0e7490,transparent)"}}/>
+        <div className="absolute top-1/3 right-0 w-80 h-80 rounded-full blur-3xl opacity-25"
+          style={{background:"radial-gradient(ellipse,#7e22ce,transparent)"}}/>
+        <div className="absolute bottom-1/3 left-1/3 w-64 h-64 rounded-full blur-3xl opacity-20"
+          style={{background:"radial-gradient(ellipse,#be185d,transparent)"}}/>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full blur-3xl opacity-25"
+          style={{background:"radial-gradient(ellipse,#1d4ed8,transparent)"}}/>
+        <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full blur-3xl opacity-20"
+          style={{background:"radial-gradient(ellipse,#0f766e,transparent)"}}/>
       </div>
 
       {/* Float message */}
@@ -447,15 +455,15 @@ export default function BlockBlastScreen({ onHome }: Props) {
           style={{
             width: gridPx, height: gridPx,
             borderRadius: 18,
-            background: "rgba(255,255,255,0.025)",
-            border: "1px solid rgba(255,255,255,0.08)",
-            boxShadow: "0 10px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)",
+            background: "linear-gradient(145deg, rgba(30,10,70,0.95) 0%, rgba(10,20,60,0.95) 100%)",
+            border: "1.5px solid rgba(139,92,246,0.35)",
+            boxShadow: "0 0 0 1px rgba(99,102,241,0.15), 0 10px 50px rgba(0,0,0,0.7), 0 0 60px rgba(99,102,241,0.12), inset 0 1px 0 rgba(255,255,255,0.07)",
           }}>
 
-          {/* Subtle grid lines */}
+          {/* Grid lines */}
           <div className="absolute inset-0 rounded-[17px] overflow-hidden pointer-events-none"
             style={{
-              backgroundImage:`linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)`,
+              backgroundImage:`linear-gradient(rgba(139,92,246,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(139,92,246,0.08) 1px, transparent 1px)`,
               backgroundSize:`${S}px ${S}px`,
             }}/>
 
@@ -486,8 +494,8 @@ export default function BlockBlastScreen({ onHome }: Props) {
                   border:`1.5px dashed ${previewOk ? (dragColor ?? "#fff") : "#ff3a5e"}88`,
                   boxShadow: previewOk ? `inset 0 0 8px ${dragColor ?? "#fff"}33` : "none",
                 } : {
-                  background:"rgba(255,255,255,0.022)",
-                  border:"1px solid rgba(255,255,255,0.04)",
+                  background:"rgba(99,102,241,0.045)",
+                  border:"1px solid rgba(139,92,246,0.1)",
                 })
               }}/>
             );
