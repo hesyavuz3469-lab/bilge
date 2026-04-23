@@ -12,10 +12,11 @@ type Props = {
   onStartDaily: () => void;
   onStartEndless: (categoryId: string) => void;
   onStartImage: (categoryId: string) => void;
+  onStartBlockBlast: () => void;
   onShowStats: () => void;
 };
 
-export default function HomeScreen({ username, onStartDaily, onStartEndless, onStartImage, onShowStats }: Props) {
+export default function HomeScreen({ username, onStartDaily, onStartEndless, onStartImage, onStartBlockBlast, onShowStats }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<string>("random");
   const [selectedImageCategory, setSelectedImageCategory] = useState<string>("random");
   const [stats, setStats] = useState<ReturnType<typeof getStats> | null>(null);
@@ -174,6 +175,25 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
             Başla →
           </button>
         </div>
+
+        {/* Block Blast */}
+        <button
+          onClick={() => { playClick(); onStartBlockBlast(); }}
+          className="w-full p-5 rounded-2xl mb-4 text-left transition-all active:scale-98"
+          style={{ background: "linear-gradient(135deg, rgba(6,182,212,0.35), rgba(99,102,241,0.3))", border: "2px solid #06b6d4", boxShadow: "0 0 30px rgba(6,182,212,0.35)" }}
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-2xl">🧩</span>
+                <span className="text-white font-black text-lg">Bilge Zeka</span>
+              </div>
+              <p className="text-cyan-200 text-sm">Blokları yerleştir · Satır patlat · XP kazan</p>
+            </div>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg"
+              style={{ background: "rgba(6,182,212,0.25)", border: "1px solid rgba(6,182,212,0.5)" }}>→</div>
+          </div>
+        </button>
 
         {/* Endless Mode */}
         <div className="p-5 rounded-2xl mb-4" style={{ background: "rgba(15,20,40,0.92)", border: "1px solid rgba(99,102,241,0.4)" }}>

@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import HomeScreen from "@/components/HomeScreen";
 import GameScreen from "@/components/GameScreen";
 import ImageGameScreen from "@/components/ImageGameScreen";
+import BlockBlastScreen from "@/components/BlockBlastScreen";
 import UsernameModal from "@/components/UsernameModal";
 import StatsModal from "@/components/StatsModal";
 import { getUsername } from "@/lib/storage";
 import { GameMode } from "@/lib/storage";
 
-type Screen = "home" | "game" | "image";
+type Screen = "home" | "game" | "image" | "blockblast";
 
 export default function Home() {
   const [screen, setScreen] = useState<Screen>("home");
@@ -63,6 +64,15 @@ export default function Home() {
     );
   }
 
+  if (screen === "blockblast") {
+    return (
+      <BlockBlastScreen
+        username={username}
+        onHome={() => setScreen("home")}
+      />
+    );
+  }
+
   return (
     <>
       <HomeScreen
@@ -70,6 +80,7 @@ export default function Home() {
         onStartDaily={handleStartDaily}
         onStartEndless={handleStartEndless}
         onStartImage={handleStartImage}
+        onStartBlockBlast={() => setScreen("blockblast")}
         onShowStats={() => setShowStats(true)}
       />
       {showUsernameModal && (
