@@ -5,6 +5,7 @@ import { getStats, getLevelTitle, getLevelColor, getLevel, getLevelProgress } fr
 import { CATEGORIES } from "@/lib/questions";
 import { getTodayKey } from "@/lib/questions";
 import { playClick } from "@/lib/sounds";
+import { IMAGE_CATEGORIES } from "@/lib/imageQuestions";
 
 type Props = {
   username: string;
@@ -16,6 +17,7 @@ type Props = {
 
 export default function HomeScreen({ username, onStartDaily, onStartEndless, onStartImage, onShowStats }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<string>("random");
+  const [selectedImageCategory, setSelectedImageCategory] = useState<string>("random");
   const [stats, setStats] = useState<ReturnType<typeof getStats> | null>(null);
   useEffect(() => {
     setStats(getStats());
@@ -127,24 +129,51 @@ export default function HomeScreen({ username, onStartDaily, onStartEndless, onS
         </button>
 
         {/* Image Mode */}
-        <button
-          onClick={() => { playClick(); onStartImage("random"); }}
-          className="w-full p-5 rounded-2xl mb-4 text-left transition-all active:scale-98"
-          style={{ background: "linear-gradient(135deg, #7c3aed, #a855f7, #ec4899)", border: "2px solid #c084fc", boxShadow: "0 0 35px rgba(168,85,247,0.5), inset 0 1px 0 rgba(255,255,255,0.1)" }}
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-2xl">🖼️</span>
-                <span className="text-white font-black text-lg">Görsel Mod</span>
-              </div>
-              <p className="text-purple-200 text-sm">Resmi tahmin et · 3 hak · Ekstra XP</p>
-            </div>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg" style={{ background: "rgba(255,255,255,0.2)", boxShadow: "0 0 16px rgba(255,255,255,0.2)" }}>
-              →
-            </div>
+        <div className="p-5 rounded-2xl mb-4" style={{ background: "linear-gradient(135deg, rgba(124,58,237,0.4), rgba(168,85,247,0.3))", border: "2px solid #c084fc", boxShadow: "0 0 35px rgba(168,85,247,0.4)" }}>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-2xl">🖼️</span>
+            <span className="text-white font-black text-lg">Görsel Mod</span>
           </div>
-        </button>
+          <p className="text-purple-200 text-sm mb-3">Resmi kazı, tahmin et · Ekstra XP</p>
+
+          <div className="grid grid-cols-4 gap-1.5 mb-3">
+            <button
+              onClick={() => { playClick(); setSelectedImageCategory("random"); }}
+              className="p-2 rounded-xl text-center transition-all active:scale-95"
+              style={{
+                background: selectedImageCategory === "random" ? "#7c3aed" : "rgba(124,58,237,0.25)",
+                border: selectedImageCategory === "random" ? "2px solid #c084fc" : "2px solid rgba(192,132,252,0.3)",
+                boxShadow: selectedImageCategory === "random" ? "0 0 14px rgba(168,85,247,0.5)" : "none",
+              }}
+            >
+              <p className="text-base">🎲</p>
+              <p className="text-xs text-white font-bold mt-0.5 leading-tight">Rastgele</p>
+            </button>
+            {IMAGE_CATEGORIES.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => { playClick(); setSelectedImageCategory(cat.id); }}
+                className="p-2 rounded-xl text-center transition-all active:scale-95"
+                style={{
+                  background: selectedImageCategory === cat.id ? `${cat.color}cc` : `${cat.color}33`,
+                  border: selectedImageCategory === cat.id ? `2px solid ${cat.color}` : `2px solid ${cat.color}55`,
+                  boxShadow: selectedImageCategory === cat.id ? `0 0 14px ${cat.color}80` : "none",
+                }}
+              >
+                <p className="text-base">{cat.emoji}</p>
+                <p className="text-xs text-white font-bold mt-0.5 leading-tight">{cat.name}</p>
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => { playClick(); onStartImage(selectedImageCategory); }}
+            className="w-full py-3.5 rounded-xl font-bold text-sm transition-all active:scale-95"
+            style={{ background: "linear-gradient(135deg, #7c3aed, #ec4899)", color: "white", boxShadow: "0 4px 20px rgba(168,85,247,0.4)" }}
+          >
+            Başla →
+          </button>
+        </div>
 
         {/* Endless Mode */}
         <div className="p-5 rounded-2xl mb-4" style={{ background: "rgba(15,20,40,0.92)", border: "1px solid rgba(99,102,241,0.4)" }}>
