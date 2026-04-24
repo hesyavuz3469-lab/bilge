@@ -235,6 +235,18 @@ export default function BlockBlastScreen({ onHome }: Props) {
     if (saved) setBest(Number(saved));
   }, []);
 
+  // Game-over check: fires whenever grid or tray changes (covers cases where
+  // no placement attempt is ever made, e.g. fresh tray that can't fit anywhere)
+  useEffect(() => {
+    if (gameOver) return;
+    const active = tray.filter((p): p is Piece => p !== null);
+    if (active.length === 0) return;
+    if (active.every(p => !fitsAnywhere(grid, p))) {
+      const t = setTimeout(() => setGameOver(true), 600);
+      return () => clearTimeout(t);
+    }
+  }, [grid, tray, gameOver]);
+
   const showFloat = (text: string) => {
     floatId.current++;
     setFloatMsg({ text, id: floatId.current });
@@ -608,7 +620,8 @@ export default function BlockBlastScreen({ onHome }: Props) {
       <div className="px-4 pb-6 pt-1">
         <div className="flex gap-3 max-w-sm mx-auto">
           {tray.map((piece, i) => {
-            const isDragging = drag?.idx === i;
+            const isDragging  = drag?.idx === i;
+            const cantFit     = piece ? !fitsAnywhere(grid, piece) : false;
 
             if (!piece) {
               return (
@@ -630,12 +643,12 @@ export default function BlockBlastScreen({ onHome }: Props) {
                 onPointerCancel={onCancel}
                 className="flex-1 flex items-center justify-center rounded-2xl"
                 style={{
-                  height:104, cursor:"grab",
-                  background: isDragging ? "rgba(255,255,255,0.02)" : `${piece.color}16`,
-                  border: isDragging ? "1px dashed rgba(255,255,255,0.09)" : `1.5px solid ${piece.color}55`,
-                  boxShadow: isDragging ? "none" : `0 0 22px ${piece.color}22, inset 0 1px 0 rgba(255,255,255,0.08)`,
-                  opacity: isDragging ? 0.3 : 1,
-                  transition:"opacity 0.12s, box-shadow 0.15s",
+                  height:104, cursor: cantFit ? "not-allowed" : "grab",
+                  background: isDragging ? "rgba(255,255,255,0.02)" : cantFit ? "rgba(255,50,50,0.08)" : `${piece.color}16`,
+                  border: isDragging ? "1px dashed rgba(255,255,255,0.09)" : cantFit ? "1.5px solid rgba(255,80,80,0.35)" : `1.5px solid ${piece.color}55`,
+                  boxShadow: isDragging || cantFit ? "none" : `0 0 22px ${piece.color}22, inset 0 1px 0 rgba(255,255,255,0.08)`,
+                  opacity: isDragging ? 0.3 : cantFit ? 0.4 : 1,
+                  transition:"opacity 0.2s, box-shadow 0.15s",
                   touchAction:"none", userSelect:"none",
                 }}>
                 <MiniPiece piece={piece} cellSize={tc} textureIdx={textureIdx}/>
