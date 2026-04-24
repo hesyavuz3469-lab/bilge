@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 const G = 8;        // grid size
@@ -229,6 +229,26 @@ export default function BlockBlastScreen({ onHome }: Props) {
 
   const gridRef  = useRef<HTMLDivElement>(null);
   const floatId  = useRef(0);
+
+  // Static particle data (generated once)
+  const particles = useMemo(() => Array.from({length: 20}, (_, i) => ({
+    id: i,
+    x: 2 + (i * 4.9 + 7) % 96,
+    size: 5 + (i * 3) % 9,
+    delay: (i * 0.65) % 11,
+    duration: 9 + (i * 1.1) % 9,
+    color: PALETTE[i % PALETTE.length],
+    rotate: (i * 41) % 50,
+  })), []);
+
+  const stars = useMemo(() => Array.from({length: 28}, (_, i) => ({
+    id: i,
+    x: (i * 3.7 + 1.5) % 100,
+    y: (i * 5.3 + 3) % 100,
+    r: 1 + (i * 0.4) % 1.5,
+    delay: (i * 0.4) % 4,
+    dur: 2 + (i * 0.25) % 2.5,
+  })), []);
 
   useEffect(() => {
     const saved = localStorage.getItem("bb_best");
@@ -489,20 +509,121 @@ export default function BlockBlastScreen({ onHome }: Props) {
       {/* Floating piece */}
       {floatingPiece}
 
-      {/* Background glow blobs */}
+      {/* ── Animated background ── */}
+      <style>{`
+        @keyframes bb-blob {
+          0%,100% { transform:translate(0,0) scale(1);   opacity:.22; }
+          33%      { transform:translate(28px,-38px) scale(1.12); opacity:.32; }
+          66%      { transform:translate(-18px,22px) scale(.9);  opacity:.18; }
+        }
+        @keyframes bb-blob2 {
+          0%,100% { transform:translate(0,0) scale(1);   opacity:.2; }
+          40%     { transform:translate(-32px,26px) scale(1.08); opacity:.3; }
+          75%     { transform:translate(20px,-18px) scale(.94); opacity:.16; }
+        }
+        @keyframes bb-rise {
+          0%   { transform:translateY(0)     rotate(0deg);   opacity:0; }
+          8%   { opacity:var(--op); }
+          88%  { opacity:var(--op); }
+          100% { transform:translateY(-105vh) rotate(540deg); opacity:0; }
+        }
+        @keyframes bb-twinkle {
+          0%,100% { opacity:.35; transform:scale(1); }
+          50%     { opacity:1;   transform:scale(1.5); }
+        }
+        @keyframes bb-beam {
+          0%,100% { opacity:.04; }
+          50%     { opacity:.10; }
+        }
+        @keyframes bb-corner {
+          0%,100% { opacity:.5; transform:rotate(0deg) scale(1); }
+          50%     { opacity:.9; transform:rotate(8deg) scale(1.07); }
+        }
+      `}</style>
+
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-3xl opacity-30"
-          style={{background:"radial-gradient(ellipse,#5b21b6,transparent)"}}/>
-        <div className="absolute top-1/4 left-0 w-80 h-80 rounded-full blur-3xl opacity-25"
-          style={{background:"radial-gradient(ellipse,#0e7490,transparent)"}}/>
-        <div className="absolute top-1/3 right-0 w-80 h-80 rounded-full blur-3xl opacity-25"
-          style={{background:"radial-gradient(ellipse,#7e22ce,transparent)"}}/>
-        <div className="absolute bottom-1/3 left-1/3 w-64 h-64 rounded-full blur-3xl opacity-20"
-          style={{background:"radial-gradient(ellipse,#be185d,transparent)"}}/>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full blur-3xl opacity-25"
-          style={{background:"radial-gradient(ellipse,#1d4ed8,transparent)"}}/>
-        <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full blur-3xl opacity-20"
-          style={{background:"radial-gradient(ellipse,#0f766e,transparent)"}}/>
+
+        {/* Animated aurora blobs */}
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[480px] rounded-full blur-3xl"
+          style={{background:"radial-gradient(ellipse,#6d28d9,transparent)", animation:"bb-blob 9s ease-in-out infinite"}}/>
+        <div className="absolute top-1/3 -left-20 w-96 h-96 rounded-full blur-3xl"
+          style={{background:"radial-gradient(ellipse,#0e7490,transparent)", animation:"bb-blob2 11s ease-in-out infinite"}}/>
+        <div className="absolute top-1/4 -right-20 w-96 h-96 rounded-full blur-3xl"
+          style={{background:"radial-gradient(ellipse,#7e22ce,transparent)", animation:"bb-blob 13s ease-in-out infinite 2s"}}/>
+        <div className="absolute bottom-1/4 left-1/4 w-72 h-72 rounded-full blur-3xl"
+          style={{background:"radial-gradient(ellipse,#be185d,transparent)", animation:"bb-blob2 10s ease-in-out infinite 1s"}}/>
+        <div className="absolute -bottom-10 right-1/4 w-[500px] h-72 rounded-full blur-3xl"
+          style={{background:"radial-gradient(ellipse,#1e40af,transparent)", animation:"bb-blob 14s ease-in-out infinite 4s"}}/>
+        <div className="absolute bottom-1/3 -left-10 w-64 h-64 rounded-full blur-3xl"
+          style={{background:"radial-gradient(ellipse,#0f766e,transparent)", animation:"bb-blob2 8s ease-in-out infinite 3s"}}/>
+
+        {/* Light beams */}
+        <div className="absolute inset-0"
+          style={{background:"linear-gradient(120deg, transparent 30%, rgba(99,102,241,0.06) 45%, transparent 60%)", animation:"bb-beam 6s ease-in-out infinite"}}/>
+        <div className="absolute inset-0"
+          style={{background:"linear-gradient(240deg, transparent 35%, rgba(0,212,255,0.05) 50%, transparent 65%)", animation:"bb-beam 8s ease-in-out infinite 3s"}}/>
+
+        {/* Dot grid */}
+        <div className="absolute inset-0"
+          style={{backgroundImage:"radial-gradient(circle, rgba(139,92,246,0.25) 1px, transparent 1px)", backgroundSize:"32px 32px"}}/>
+
+        {/* Twinkling stars */}
+        <svg className="absolute inset-0 w-full h-full">
+          {stars.map(s => (
+            <circle key={s.id}
+              cx={`${s.x}%`} cy={`${s.y}%`} r={s.r}
+              fill="white"
+              style={{animation:`bb-twinkle ${s.dur}s ease-in-out infinite ${s.delay}s`}}
+            />
+          ))}
+        </svg>
+
+        {/* Rising block particles */}
+        {particles.map(p => (
+          <div key={p.id} style={{
+            position:"absolute",
+            left:`${p.x}%`, bottom:"-20px",
+            width:p.size, height:p.size,
+            borderRadius:2,
+            background:`linear-gradient(135deg,${lighten(p.color,40)},${p.color})`,
+            boxShadow:`0 0 6px ${p.color}88`,
+            ["--op" as string]: "0.18",
+            animation:`bb-rise ${p.duration}s linear infinite ${p.delay}s`,
+          }}/>
+        ))}
+
+        {/* Corner decorations */}
+        <div className="absolute top-4 left-4 w-16 h-16 opacity-40"
+          style={{animation:"bb-corner 7s ease-in-out infinite"}}>
+          <svg viewBox="0 0 64 64" fill="none">
+            <rect x="4" y="4" width="18" height="18" rx="4" stroke="#00d4ff" strokeWidth="1.5" fill="rgba(0,212,255,0.08)"/>
+            <rect x="28" y="4" width="10" height="10" rx="2" stroke="#ea40fb" strokeWidth="1.5" fill="rgba(234,64,251,0.08)"/>
+            <rect x="4" y="28" width="10" height="10" rx="2" stroke="#00e676" strokeWidth="1.5" fill="rgba(0,230,118,0.08)"/>
+          </svg>
+        </div>
+        <div className="absolute top-4 right-4 w-16 h-16 opacity-40"
+          style={{animation:"bb-corner 9s ease-in-out infinite 2s", transform:"scaleX(-1)"}}>
+          <svg viewBox="0 0 64 64" fill="none">
+            <rect x="4" y="4" width="18" height="18" rx="4" stroke="#ffab00" strokeWidth="1.5" fill="rgba(255,171,0,0.08)"/>
+            <rect x="28" y="4" width="10" height="10" rx="2" stroke="#ff3a5e" strokeWidth="1.5" fill="rgba(255,58,94,0.08)"/>
+            <rect x="4" y="28" width="10" height="10" rx="2" stroke="#2979ff" strokeWidth="1.5" fill="rgba(41,121,255,0.08)"/>
+          </svg>
+        </div>
+        <div className="absolute bottom-4 left-4 w-16 h-16 opacity-35"
+          style={{animation:"bb-corner 11s ease-in-out infinite 1s", transform:"scaleY(-1)"}}>
+          <svg viewBox="0 0 64 64" fill="none">
+            <rect x="4" y="4" width="12" height="12" rx="3" stroke="#69ff47" strokeWidth="1.5" fill="rgba(105,255,71,0.08)"/>
+            <rect x="22" y="4" width="8" height="8" rx="2" stroke="#ea40fb" strokeWidth="1" fill="rgba(234,64,251,0.08)"/>
+          </svg>
+        </div>
+        <div className="absolute bottom-4 right-4 w-16 h-16 opacity-35"
+          style={{animation:"bb-corner 10s ease-in-out infinite 3s", transform:"scale(-1,-1)"}}>
+          <svg viewBox="0 0 64 64" fill="none">
+            <rect x="4" y="4" width="12" height="12" rx="3" stroke="#ff6d00" strokeWidth="1.5" fill="rgba(255,109,0,0.08)"/>
+            <rect x="22" y="4" width="8" height="8" rx="2" stroke="#00d4ff" strokeWidth="1" fill="rgba(0,212,255,0.08)"/>
+          </svg>
+        </div>
+
       </div>
 
       {/* Float message */}
