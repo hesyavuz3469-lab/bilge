@@ -98,29 +98,112 @@ const fitsAnywhere = (grid: Grid, piece: Piece): boolean => {
   return false;
 };
 
-// Lighten a #rrggbb hex color
+// Lighten / darken a #rrggbb hex color
 const lighten = (hex: string, amt = 55): string => {
   const r = Math.min(255, parseInt(hex.slice(1,3),16) + amt);
   const g = Math.min(255, parseInt(hex.slice(3,5),16) + amt);
   const b = Math.min(255, parseInt(hex.slice(5,7),16) + amt);
   return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;
 };
+const darken = (hex: string, amt = 40): string => lighten(hex, -amt);
+
+// ─── Block Textures ───────────────────────────────────────────────────────────
+type CellStyle = { background: string; border: string; boxShadow: string; borderRadius: number };
+
+const TEXTURES: { name: string; emoji: string; apply: (c: string) => CellStyle }[] = [
+  {
+    name: "Kristal", emoji: "💎",
+    apply: (c) => ({
+      background: `linear-gradient(135deg, ${lighten(c,70)} 0%, ${c} 52%, ${darken(c,30)} 100%)`,
+      border: `1.5px solid ${lighten(c,35)}`,
+      boxShadow: `inset 0 2px 5px rgba(255,255,255,0.65), inset 0 -2px 3px rgba(0,0,0,0.3), 0 3px 14px ${c}66`,
+      borderRadius: 7,
+    }),
+  },
+  {
+    name: "Metal", emoji: "⚙️",
+    apply: (c) => ({
+      background: `linear-gradient(180deg, ${lighten(c,75)} 0%, ${c} 38%, ${lighten(c,20)} 58%, ${darken(c,20)} 100%)`,
+      border: `1.5px solid rgba(255,255,255,0.45)`,
+      boxShadow: `inset 0 1px 4px rgba(255,255,255,0.75), inset 0 -2px 4px rgba(0,0,0,0.45), 0 2px 8px ${c}44`,
+      borderRadius: 4,
+    }),
+  },
+  {
+    name: "Neon", emoji: "🌟",
+    apply: (c) => ({
+      background: `${c}28`,
+      border: `2px solid ${c}`,
+      boxShadow: `0 0 6px ${c}, 0 0 18px ${c}99, 0 0 32px ${c}44, inset 0 0 10px ${c}33`,
+      borderRadius: 6,
+    }),
+  },
+  {
+    name: "Cam", emoji: "🪟",
+    apply: (c) => ({
+      background: `linear-gradient(135deg, rgba(255,255,255,0.42) 0%, ${c}66 45%, ${c}22 100%)`,
+      border: `1.5px solid rgba(255,255,255,0.55)`,
+      boxShadow: `inset 0 2px 8px rgba(255,255,255,0.45), inset 0 -1px 2px rgba(0,0,0,0.1), 0 4px 14px ${c}44`,
+      borderRadius: 10,
+    }),
+  },
+  {
+    name: "Ateş", emoji: "🔥",
+    apply: (c) => ({
+      background: `linear-gradient(0deg, #c0392b 0%, ${c} 45%, #ffab00 100%)`,
+      border: `1.5px solid #ff6d00`,
+      boxShadow: `inset 0 1px 4px rgba(255,220,0,0.55), 0 0 16px #ff3a5e88, 0 4px 10px rgba(255,60,0,0.45)`,
+      borderRadius: 6,
+    }),
+  },
+  {
+    name: "Buz", emoji: "❄️",
+    apply: (c) => ({
+      background: `linear-gradient(135deg, #e8f8ff 0%, ${c}aa 42%, #0077b6 100%)`,
+      border: `2px solid rgba(180,240,255,0.75)`,
+      boxShadow: `inset 0 2px 6px rgba(255,255,255,0.75), inset 0 -1px 3px rgba(0,100,180,0.3), 0 2px 12px #00d4ff77`,
+      borderRadius: 8,
+    }),
+  },
+  {
+    name: "Altın", emoji: "✨",
+    apply: (c) => ({
+      background: `linear-gradient(135deg, #fffde7 0%, #ffca28 40%, ${c} 65%, #e65100 100%)`,
+      border: `1.5px solid #ffd54f`,
+      boxShadow: `inset 0 2px 5px rgba(255,255,255,0.65), 0 2px 14px rgba(255,171,0,0.75), 0 0 8px rgba(255,200,0,0.4)`,
+      borderRadius: 5,
+    }),
+  },
+  {
+    name: "Taş", emoji: "🪨",
+    apply: (c) => ({
+      background: `linear-gradient(135deg, rgba(210,210,220,0.92) 0%, ${c}cc 50%, rgba(40,40,60,0.88) 100%)`,
+      border: `2px solid rgba(180,180,205,0.5)`,
+      boxShadow: `inset 0 2px 3px rgba(255,255,255,0.32), inset 0 -2px 5px rgba(0,0,0,0.55), 0 3px 8px rgba(0,0,0,0.55)`,
+      borderRadius: 3,
+    }),
+  },
+];
 
 // ─── Mini piece renderer (tray) ───────────────────────────────────────────────
-function MiniPiece({ piece, cellSize }: { piece: Piece; cellSize: number }) {
+function MiniPiece({ piece, cellSize, textureIdx }: { piece: Piece; cellSize: number; textureIdx: number }) {
   const { rows, cols } = shapeSize(piece.shape);
+  const tex = TEXTURES[textureIdx % TEXTURES.length];
   return (
     <div style={{ display:"grid", gridTemplateColumns:`repeat(${cols},${cellSize}px)`, gridTemplateRows:`repeat(${rows},${cellSize}px)`, gap:2 }}>
       {piece.shape.map((row, r) =>
-        row.map((filled, c) => (
-          <div key={`${r}-${c}`} style={{
-            width: cellSize, height: cellSize, borderRadius: 3,
-            background: filled
-              ? `linear-gradient(135deg, ${lighten(piece.color,55)} 0%, ${piece.color} 100%)`
-              : "transparent",
-            boxShadow: filled ? `inset 0 1px 2px rgba(255,255,255,0.45), 0 1px 5px ${piece.color}66` : "none",
-          }}/>
-        ))
+        row.map((filled, c) => {
+          const ts = filled ? tex.apply(piece.color) : null;
+          return (
+            <div key={`${r}-${c}`} style={{
+              width: cellSize, height: cellSize,
+              borderRadius: ts ? ts.borderRadius : 3,
+              background: ts ? ts.background : "transparent",
+              border: ts ? ts.border : "none",
+              boxShadow: ts ? ts.boxShadow : "none",
+            }}/>
+          );
+        })
       )}
     </div>
   );
@@ -134,8 +217,9 @@ export default function BlockBlastScreen({ onHome }: Props) {
   const [tray,     setTray]     = useState<(Piece|null)[]>(mkTray);
   const [score,    setScore]    = useState(0);
   const [best,     setBest]     = useState(0);
-  const [combo,    setCombo]    = useState(0);
-  const [clearing, setClearing] = useState<Set<string>>(new Set());
+  const [combo,      setCombo]      = useState(0);
+  const [textureIdx, setTextureIdx] = useState(0);
+  const [clearing,   setClearing]   = useState<Set<string>>(new Set());
   const [gameOver, setGameOver] = useState(false);
   const [floatMsg, setFloatMsg] = useState<{ text:string; id:number }|null>(null);
 
@@ -199,11 +283,14 @@ export default function BlockBlastScreen({ onHome }: Props) {
       setClearing(flash);
       setTimeout(() => setClearing(new Set()), 380);
 
+      const nextTex = TEXTURES[(textureIdx + 1) % TEXTURES.length];
+      setTextureIdx(t => t + 1);
+
       if      (newCombo >= 5) showFloat(`🔥🔥 MEGA COMBO x${newCombo}!`);
       else if (newCombo >= 3) showFloat(`🔥 COMBO x${newCombo}! +${gained}`);
-      else if (nCleared >= 3) showFloat(`💥 TRIPLE! +${gained}`);
-      else if (nCleared === 2) showFloat(`⚡ ÇİFT HAT! +${gained}`);
-      else showFloat(`✨ +${gained}`);
+      else if (nCleared >= 3) showFloat(`💥 TRIPLE! +${gained} ${nextTex.emoji}`);
+      else if (nCleared === 2) showFloat(`⚡ ÇİFT HAT! +${gained} ${nextTex.emoji}`);
+      else showFloat(`${nextTex.emoji} ${nextTex.name}! +${gained}`);
     }
 
     const newTray = [...tray] as (Piece|null)[];
@@ -274,25 +361,31 @@ export default function BlockBlastScreen({ onHome }: Props) {
     const { rows, cols } = shapeSize(piece.shape);
     const w = cols * C + (cols - 1) * P;
     const h = rows * C + (rows - 1) * P;
+    const tex = TEXTURES[textureIdx % TEXTURES.length];
     return (
       <div style={{
         position:"fixed", pointerEvents:"none", zIndex:100,
         left: drag.x - w/2, top: drag.y - h/2,
         width:w, height:h,
-        opacity:0.9, transform:"scale(1.12)",
+        opacity:0.92, transform:"scale(1.12)",
         filter:`drop-shadow(0 0 14px ${piece.color}) drop-shadow(0 6px 20px rgba(0,0,0,0.7))`,
       }}>
         {piece.shape.map((row, r) =>
-          row.map((filled, c) => filled ? (
-            <div key={`${r}-${c}`} style={{
-              position:"absolute",
-              left: c*(C+P), top: r*(C+P),
-              width:C, height:C, borderRadius:7,
-              background:`linear-gradient(135deg, ${lighten(piece.color,55)} 0%, ${piece.color} 55%, ${piece.color}bb 100%)`,
-              border:`1.5px solid ${lighten(piece.color,30)}`,
-              boxShadow:`inset 0 1px 4px rgba(255,255,255,0.5), inset 0 -1px 2px rgba(0,0,0,0.25), 0 3px 10px ${piece.color}88`,
-            }}/>
-          ) : null)
+          row.map((filled, c) => {
+            if (!filled) return null;
+            const ts = tex.apply(piece.color);
+            return (
+              <div key={`${r}-${c}`} style={{
+                position:"absolute",
+                left: c*(C+P), top: r*(C+P),
+                width:C, height:C,
+                background:   ts.background,
+                border:       ts.border,
+                boxShadow:    ts.boxShadow,
+                borderRadius: ts.borderRadius,
+              }}/>
+            );
+          })
         )}
       </div>
     );
@@ -468,38 +561,46 @@ export default function BlockBlastScreen({ onHome }: Props) {
             }}/>
 
           {/* Cells */}
-          {grid.map((row, r) => row.map((cell, c) => {
-            const key = `${r}-${c}`;
-            const isFlash = clearing.has(key);
-            const isPrev  = previewSet.has(key);
-            const dragColor = drag ? tray[drag.idx]?.color : undefined;
+          {(() => {
+            const tex = TEXTURES[textureIdx % TEXTURES.length];
+            return grid.map((row, r) => row.map((cell, c) => {
+              const key = `${r}-${c}`;
+              const isFlash   = clearing.has(key);
+              const isPrev    = previewSet.has(key);
+              const dragColor = drag ? tray[drag.idx]?.color : undefined;
+              const ts        = cell ? tex.apply(cell) : null;
 
-            return (
-              <div key={key} style={{
-                position:"absolute",
-                left: c*S, top: r*S,
-                width:C, height:C, borderRadius:6,
-                transition:"background 0.12s, box-shadow 0.12s",
-                zIndex: isFlash ? 5 : 1,
-                ...(isFlash ? {
-                  background:"white",
-                  boxShadow:"0 0 22px white, 0 0 45px rgba(255,255,255,0.6)",
-                  transform:"scale(1.06)",
-                } : cell ? {
-                  background:`linear-gradient(135deg, ${lighten(cell,55)} 0%, ${cell} 55%, ${cell}cc 100%)`,
-                  border:`1px solid ${lighten(cell,25)}`,
-                  boxShadow:`inset 0 1px 4px rgba(255,255,255,0.5), inset 0 -1px 2px rgba(0,0,0,0.25), 0 2px 10px ${cell}55`,
-                } : isPrev ? {
-                  background: previewOk ? `${dragColor ?? "#fff"}44` : "rgba(255,50,50,0.18)",
-                  border:`1.5px dashed ${previewOk ? (dragColor ?? "#fff") : "#ff3a5e"}88`,
-                  boxShadow: previewOk ? `inset 0 0 8px ${dragColor ?? "#fff"}33` : "none",
-                } : {
-                  background:"rgba(99,102,241,0.045)",
-                  border:"1px solid rgba(139,92,246,0.1)",
-                })
-              }}/>
-            );
-          }))}
+              return (
+                <div key={key} style={{
+                  position:"absolute",
+                  left: c*S, top: r*S,
+                  width:C, height:C,
+                  transition:"background 0.15s, box-shadow 0.15s",
+                  zIndex: isFlash ? 5 : 1,
+                  ...(isFlash ? {
+                    background:"white",
+                    boxShadow:"0 0 22px white, 0 0 45px rgba(255,255,255,0.6)",
+                    transform:"scale(1.08)",
+                    borderRadius: 7,
+                  } : ts ? {
+                    background:    ts.background,
+                    border:        ts.border,
+                    boxShadow:     ts.boxShadow,
+                    borderRadius:  ts.borderRadius,
+                  } : isPrev ? {
+                    background: previewOk ? `${dragColor ?? "#fff"}44` : "rgba(255,50,50,0.18)",
+                    border:`1.5px dashed ${previewOk ? (dragColor ?? "#fff") : "#ff3a5e"}88`,
+                    boxShadow: previewOk ? `inset 0 0 8px ${dragColor ?? "#fff"}33` : "none",
+                    borderRadius: 6,
+                  } : {
+                    background:"rgba(99,102,241,0.045)",
+                    border:"1px solid rgba(139,92,246,0.1)",
+                    borderRadius: 6,
+                  })
+                }}/>
+              );
+            }));
+          })()}
         </div>
       </div>
 
@@ -537,7 +638,7 @@ export default function BlockBlastScreen({ onHome }: Props) {
                   transition:"opacity 0.12s, box-shadow 0.15s",
                   touchAction:"none", userSelect:"none",
                 }}>
-                <MiniPiece piece={piece} cellSize={tc}/>
+                <MiniPiece piece={piece} cellSize={tc} textureIdx={textureIdx}/>
               </div>
             );
           })}
